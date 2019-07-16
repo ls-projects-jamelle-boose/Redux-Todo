@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addTodo, toggleCompleted } from "../actions/index";
+import { addTodo, toggleCompleted, deleteTodo } from "../actions/index";
 
 import "./TodoApp.css";
 
@@ -28,17 +28,24 @@ class TodoApp extends Component {
     this.props.toggleCompleted(id);
   };
 
+  deleteTodo = id => {
+    this.props.deleteTodo(id);
+  };
+
   render() {
     return (
       <React.Fragment>
         <div className="TodoList">
           {this.props.todoList.map(item => (
-            <h4
-              className={`${item.completed ? "item-completed" : null}`}
-              key={item.id}
-              onClick={() => this.toggleCompleted(item.id)}>
-              {item.todoItem}
-            </h4>
+            <div className="todo-item">
+              <h4
+                className={`${item.completed ? "item-completed" : null}`}
+                key={item.id}
+                onClick={() => this.toggleCompleted(item.id)}>
+                {item.todoItem}
+              </h4>
+              <h4 onClick={() => this.deleteTodo(item.id)}>x</h4>
+            </div>
           ))}
         </div>
         <input
@@ -60,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addTodo, toggleCompleted }
+  { addTodo, toggleCompleted, deleteTodo }
 )(TodoApp);

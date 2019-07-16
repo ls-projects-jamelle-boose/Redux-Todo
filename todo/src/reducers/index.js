@@ -1,4 +1,4 @@
-import { ADD_TODO, TOGGLE_COMPLETED } from "../actions";
+import { ADD_TODO, TOGGLE_COMPLETED, DELETE_TODO } from "../actions";
 
 //Create store and initial list of todo items
 const initialState = {
@@ -13,6 +13,7 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   console.log("insider reducer", action);
+  // eslint-disable-next-line no-lone-blocks
   {
     switch (action.type) {
       case ADD_TODO:
@@ -33,6 +34,13 @@ function reducer(state = initialState, action) {
             item.id === action.payload
               ? { ...item, completed: !item.completed }
               : item
+          )
+        };
+      case DELETE_TODO:
+        return {
+          ...state,
+          todoItems: state.todoItems.filter(
+            item => !(item.id === action.payload)
           )
         };
       default:
